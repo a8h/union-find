@@ -18,7 +18,7 @@ class union_find():
         return str(self.ids)
 
     # Returns the root of element p (where root identifies the component).
-    def find(self, p):
+    def find_iter(self, p):
         if p < 0 or p > self.size - 1:
             return None
         root = p
@@ -28,6 +28,14 @@ class union_find():
         while (p != self.ids[p]):
             self.ids[p], p = root, self.ids[p]
         return root
+
+    # Returns the root of element p (where root identifies the component).
+    def find(self, p):
+        if self.ids[p] == p:
+            return p
+        else:
+            self.ids[p] = self.find(self.ids[p])
+        return self.ids[p]
 
     def union(self, p, q):
         rootp = self.find(p)
@@ -59,16 +67,18 @@ class union_find():
     def component_size(self, p):
         return self.sizes[self.find(p)]
     
-    def test(self):
-        print(x)
-        print(len(x))
-        print(x.find(9))
-        print(x.union(8,9))
-        print(x.connected(8,9))
-        print(x.component_size(8))
-        print(x.union(7,8))
-        print(x.find(7))
-        print(x.component_size(8))
+def test():
+    x = union_find(10)
+    print(x)
+    print(len(x))
+    print(x.find(9))
+    print(x.union(8,9))
+    print(x.connected(8,9))
+    print(x.component_size(8))
+    print(x.union(7,8))
+    print(x.find(7))
+    print(x.component_size(8))
+    print(x.union(1,7))
+    print(x)
         
-x = union_find(10)
-x.test()
+test()
